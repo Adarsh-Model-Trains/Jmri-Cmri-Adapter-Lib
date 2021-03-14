@@ -1,4 +1,4 @@
-# jmri-cmri-adapter-lib
+# Jmri-Cmri-Adapter-Lib
 
 ---
 
@@ -6,7 +6,7 @@
 
 ## About Lib 
 ```
-jmri-cmri-adapter-lib is the lib for complete framework which will support signal lights turnout and sensors 
+Jmri-Cmri-Adapter-Lib is the lib for complete framework which will support signal lights turnout and sensors 
 connected to the jmri with mini code and max configuation 
 
 ```

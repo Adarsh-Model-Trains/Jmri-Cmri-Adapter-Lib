@@ -2,7 +2,7 @@
 
 ---
 
-# <a href="https://github.com/adarshkumarsingh83/jmri-cmri-adapter-lib/archive/main.zip"> Library download link </a>
+# <a href="https://github.com/adarshkumarsingh83/Jmri-Cmri-Adapter-Lib/archive/main.zip"> Library download link </a>
 
 ## About Lib 
 ```

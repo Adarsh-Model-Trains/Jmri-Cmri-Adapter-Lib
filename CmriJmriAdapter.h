@@ -7,9 +7,9 @@
 #define CmriJmriAdapter_h
 
 #include <Arduino.h>
-#include <CMRI.h>
-#include "ExternalBoardAdapter.h"
-
+#include "CMRI.h"
+#include "CtSensor.h"
+#include "Pca9685Board.h"
 
 class CmriJmriAdapter {
 
@@ -22,30 +22,43 @@ class CmriJmriAdapter {
     int _turnoutCount;
     int _jmriLightStartAddress;
     int _lightCount;
+    int _jmriSensorsStartAddress;
+    int _sensorsCount;
     CMRI * _cmri;
-    ExternalBoardAdapter externalBoardAdapter;
-    char findTypeByJmriAddress(int  jmriAddress);
+    CtSensor ctSensor;
+    Pca9685Board pca9685Board;
 
   public:
 
-    CmriJmriAdapter(CMRI * cmri) {
-      _cmri = cmri;
+    CmriJmriAdapter() {
       _jmriSignalStartAddress = -1;
-      _signalCount = -1;
+      _signalCount = 0;
       _jmriTurnoutStartAddress = -1;
-      _turnoutCount = -1;
+      _turnoutCount = 0;
       _jmriLightStartAddress = -1;
-      _lightCount = -1;
-      initCmriJmriAdapter();
+      _lightCount = 0;
+      _jmriSensorsStartAddress = -1;
+      _sensorsCount = 0;
     }
 
-    void initCmriJmriAdapter();
+    void initCmriJmriAdapter(int cmriAddresss = 0,
+                             int inputs = 24,
+                             int outputs = 48,
+                             int cmriBoadRate = 9600);
 
-    void activateCmriSignal(int jmriSignalStartAddress, int signalCount);
+    void activateCmriTurnout(int jmriTurnoutStartAddress, int turnoutCount = 0);
 
-    void activateCmriTurnout(int jmriTurnoutStartAddress, int turnoutCount) ;
+    void setTurnoutRange(int turnoutNo, int openRange, int closeRange);
 
-    void activateCmriLight(int lightStartAddress, int lightCount);
+
+    void activateCmriSignal(int jmriSignalStartAddress, int signalCount = 0);
+
+
+    void activateCmriLight(int jmriLightStartAddress, int lightCount = 0);
+
+    void activateCmriSensors(int jmriSensorsStartAddress, int sensorsCount = 0);
+
+    void setCtSensorPin(int sensorNo, int pinNo);
 
     void processJmri();
 

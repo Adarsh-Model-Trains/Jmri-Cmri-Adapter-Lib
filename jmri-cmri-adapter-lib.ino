@@ -4,33 +4,43 @@
    Developed by Adarsh kumar
    Support adarshkumarsingh83@gmail.com
 */
-
-#include <CMRI.h>
-#include<Auto485.h>
 #include "CmriJmriAdapter.h"
 
-#define DE_PIN 2
-#define CMRI_ADDR 1
+#define CMRI_ADDR 0
+#define CMRI_INPUT 24
+#define CMRI_OUTPUT 48
 
-// arduino pin 2 for DE and RE pins
-Auto485 bus(DE_PIN);
+#define TURNOUT_START_ADDRESS 0
+#define TURNOUT_COUNT 5
 
-// defaults to a SMINI with address 0. SMINI = 24 inputs, 48 outputs
-CMRI cmri(CMRI_ADDR, 24, 48, bus);
+#define SIGNAL_START_ADDRESS 10
+#define SIGNAL_COUNT 3
 
-CmriJmriAdapter cmriJmriAdapter = CmriJmriAdapter(&cmri);
+#define LIGHT_START_ADDRESS 15
+#define LIGHT_COUNT 5
+
+#define SENSOR_START_ADDRESS 0
+#define SENSOR_COUNT 5
+
+#define CMRI_BOADRATE 9600
+
+CmriJmriAdapter jmriCmriAdapter;
 
 void setup() {
-  bus.begin(9600);
-  cmriJmriAdapter.activateCmriSignal(1001, 10);
-  cmriJmriAdapter.activateCmriTurnout(1101, 10);
-  //todo turnout open and close range setting 
-  cmriJmriAdapter.activateCmriLight(1201, 10);
-  cmriJmriAdapter.initCmriJmriAdapter();
+
+  jmriCmriAdapter.activateCmriTurnout(TURNOUT_START_ADDRESS, TURNOUT_COUNT);
+  jmriCmriAdapter.activateCmriSignal(SIGNAL_START_ADDRESS, SIGNAL_COUNT);
+  jmriCmriAdapter.activateCmriLight(LIGHT_START_ADDRESS, LIGHT_COUNT);
+  jmriCmriAdapter.activateCmriSensors(SENSOR_START_ADDRESS, SENSOR_COUNT);
+  jmriCmriAdapter.setCtSensorPin(1, 13);
+  jmriCmriAdapter.setCtSensorPin(2, 12);
+  jmriCmriAdapter.setCtSensorPin(3, 11);
+  jmriCmriAdapter.setCtSensorPin(4, 10);
+  jmriCmriAdapter.setCtSensorPin(5, 9);
+  jmriCmriAdapter.initCmriJmriAdapter(CMRI_ADDR, CMRI_INPUT, CMRI_OUTPUT, CMRI_BOADRATE);
 }
 
-
 void loop() {
-  cmriJmriAdapter.processJmri();
+  jmriCmriAdapter.processJmri();
   delay(500);
 }

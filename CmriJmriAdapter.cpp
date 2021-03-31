@@ -54,6 +54,15 @@ void CmriJmriAdapter::setCtSensorPin(int sensorNo, int pinNo) {
   ctSensor.setSensorPin(sensorNo, pinNo);
 }
 
+
+void CmriJmriAdapter::setTurnoutFrequency(int turnoutFrequency) {
+  pca9685Board.setFrequencyTurnout(turnoutFrequency);
+}
+
+void CmriJmriAdapter::setLightFrequency(int frequency) {
+  pca9685Board.setFrequencyLight(frequency);
+}
+
 void CmriJmriAdapter::processJmri() {
   _cmri->process();
 

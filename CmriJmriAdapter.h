@@ -50,9 +50,11 @@ class CmriJmriAdapter {
 
     void setTurnoutRange(int turnoutNo, int openRange, int closeRange);
 
+    void setTurnoutFrequency(int turnoutFrequency);
+
+    void setLightFrequency(int frequency);
 
     void activateCmriSignal(int jmriSignalStartAddress, int signalCount = 0);
-
 
     void activateCmriLight(int jmriLightStartAddress, int lightCount = 0);
 

@@ -10,6 +10,8 @@
 #include "CMRI.h"
 #include "CtSensor.h"
 #include "Pca9685Board.h"
+#include "DiyCtSensor.h"
+#include "IrBlockSensors.h"
 
 class CmriJmriAdapter {
 
@@ -22,10 +24,16 @@ class CmriJmriAdapter {
     int _turnoutCount;
     int _jmriLightStartAddress;
     int _lightCount;
-    int _jmriSensorsStartAddress;
-    int _sensorsCount;
+    int _jmriCtSensorsStartAddress;
+    int _ctSensorsCount;
+    int _jmriDiyCtSensorsStartAddress;
+    int _diyCtSensorsCount;
+    int _jmriIrSensorsStartAddress;
+    int _irSensorsCount;
     CMRI * _cmri;
     CtSensor ctSensor;
+    DiyCtSensor diyCtSensor;
+    IrBlockSensors irSensors;
     Pca9685Board pca9685Board;
 
   public:
@@ -37,8 +45,12 @@ class CmriJmriAdapter {
       _turnoutCount = 0;
       _jmriLightStartAddress = -1;
       _lightCount = 0;
-      _jmriSensorsStartAddress = -1;
-      _sensorsCount = 0;
+      _jmriCtSensorsStartAddress = -1;
+      _ctSensorsCount = 0;
+      _jmriDiyCtSensorsStartAddress = -1;
+      _diyCtSensorsCount = 0;
+      _jmriIrSensorsStartAddress = -1;
+      _irSensorsCount = 0;
     }
 
     void initCmriJmriAdapter(int cmriAddresss = 0,
@@ -58,9 +70,21 @@ class CmriJmriAdapter {
 
     void activateCmriLight(int jmriLightStartAddress, int lightCount = 0);
 
-    void activateCmriSensors(int jmriSensorsStartAddress, int sensorsCount = 0);
+    void activateCmriCtSensors(int jmriCtSensorsStartAddress, int ctSensorsCount = 0);
 
     void setCtSensorPin(int sensorNo, int pinNo);
+
+    void activateCmriIrSensors(int jmriIrSensorsStartAddress, int irSensorsCount = 0);
+
+    void setIrSensorPin(int sensorNo, int pinNo);
+
+    void activateCmriDiyCtSensors(int jmriDiyCtSensorsStartAddress, int diyCtSensorsCount = 0);
+
+    void setDiyCtSensorPin(int sensorNo, uint8_t pinNo);
+
+    void setDiyCtOccupancyThreshhold(int blockNo, int occupancyThreshold);
+
+    void setDiyCtUnOccupancySamples(int blockNo, int unOccupancySamples);
 
     void processJmri();
 

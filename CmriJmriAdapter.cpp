@@ -42,12 +42,44 @@ void CmriJmriAdapter::activateCmriLight(int lightStartAddress, int lightCount) {
 }
 
 
-void CmriJmriAdapter::activateCmriSensors(int jmriSensorsStartAddress, int sensorsCount) {
-  _jmriSensorsStartAddress = jmriSensorsStartAddress;
-  if (_sensorsCount > 0) {
-    _sensorsCount = sensorsCount;
-    ctSensor.initCtSensor(sensorsCount);
+void CmriJmriAdapter::activateCmriCtSensors(int jmriCtSensorsStartAddress, int ctSensorsCount) {
+  _jmriCtSensorsStartAddress = jmriCtSensorsStartAddress;
+  if (ctSensorsCount > 0) {
+    _ctSensorsCount = ctSensorsCount;
+    ctSensor.initCtSensor(_ctSensorsCount);
   }
+}
+
+
+void CmriJmriAdapter::activateCmriIrSensors(int jmriIrSensorsStartAddress, int irSensorsCount) {
+  _jmriIrSensorsStartAddress = jmriIrSensorsStartAddress;
+  if (irSensorsCount > 0) {
+    _irSensorsCount = irSensorsCount;
+    irSensors.initBlockSensors(irSensorsCount);
+  }
+}
+
+void CmriJmriAdapter::setIrSensorPin(int sensorNo, int pinNo) {
+}
+
+void CmriJmriAdapter::activateCmriDiyCtSensors(int jmriDiyCtSensorsStartAddress, int diyCtSensorsCount = 0) {
+  _jmriDiyCtSensorsStartAddress = jmriDiyCtSensorsStartAddress;
+  if (diyCtSensorsCount > 0) {
+    _diyCtSensorsCount = diyCtSensorsCount;
+    diyCtSensor.initBlockSensors(diyCtSensorsCount);
+  }
+}
+
+void CmriJmriAdapter::setDiyCtOccupancyThreshhold(int blockNo, int occupancyThreshold) {
+  diyCtSensor.setDiyOccupancyThreshhold(blockNo, occupancyThreshold);
+}
+
+void CmriJmriAdapter::setDiyCtUnOccupancySamples(int blockNo, int unOccupancySamples) {
+  diyCtSensor.setDiyUnOccupancySamples(blockNo, unOccupancySamples);
+}
+
+void CmriJmriAdapter::setDiyCtSensorPin(int sensorNo, uint8_t pinNo) {
+  diyCtSensor.setBlockSensorPins(sensorNo, pinNo);
 }
 
 void CmriJmriAdapter::setCtSensorPin(int sensorNo, int pinNo) {
@@ -66,11 +98,18 @@ void CmriJmriAdapter::setLightFrequency(int frequency) {
 void CmriJmriAdapter::processJmri() {
   _cmri->process();
 
-  if (_sensorsCount != 0) {
-    for (int i = _jmriSensorsStartAddress; i < _sensorsCount; i++) {
+  if (_ctSensorsCount != 0) {
+    for (int i = _jmriCtSensorsStartAddress; i < _ctSensorsCount; i++) {
       _cmri->set_bit(i, ctSensor.isSensorActive(i));
     }
   }
+
+  if (_diyCtSensorsCount != 0) {
+    for (int i = _jmriDiyCtSensorsStartAddress; i < _diyCtSensorsCount; i++) {
+      _cmri->set_bit(i, diyCtSensor.isSensorBlockOccupied(i));
+    }
+  }
+
 
   if (_signalCount != 0 ) {
     int totalJmriSignalAddress = _jmriSignalStartAddress + _signalCount;

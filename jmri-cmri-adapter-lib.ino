@@ -19,24 +19,21 @@
 #define LIGHT_START_ADDRESS 15
 #define LIGHT_COUNT 5
 
-#define SENSOR_START_ADDRESS 0
-#define SENSOR_COUNT 5
+#define CT_SENSOR_START_ADDRESS 0
+#define CT_SENSOR_COUNT 2
 
 #define CMRI_BOADRATE 9600
 
 CmriJmriAdapter jmriCmriAdapter;
 
 void setup() {
-
   jmriCmriAdapter.activateCmriTurnout(TURNOUT_START_ADDRESS, TURNOUT_COUNT);
   jmriCmriAdapter.activateCmriSignal(SIGNAL_START_ADDRESS, SIGNAL_COUNT);
   jmriCmriAdapter.activateCmriLight(LIGHT_START_ADDRESS, LIGHT_COUNT);
-  jmriCmriAdapter.activateCmriSensors(SENSOR_START_ADDRESS, SENSOR_COUNT);
+  jmriCmriAdapter.activateCmriCtSensors(CT_SENSOR_START_ADDRESS, CT_SENSOR_COUNT);
   jmriCmriAdapter.setCtSensorPin(1, 13);
   jmriCmriAdapter.setCtSensorPin(2, 12);
-  jmriCmriAdapter.setCtSensorPin(3, 11);
-  jmriCmriAdapter.setCtSensorPin(4, 10);
-  jmriCmriAdapter.setCtSensorPin(5, 9);
+
   jmriCmriAdapter.initCmriJmriAdapter(CMRI_ADDR, CMRI_INPUT, CMRI_OUTPUT, CMRI_BOADRATE);
 }
 
